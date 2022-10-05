@@ -77,8 +77,42 @@ public class Fachada {
 		}
 	}
 
-	public void nuevaMascota(int cedula, VOMascota voM) {
-
+	public void nuevaMascota(int cedula, VOMascota voM) throws DuenioException, PersistenciaException {
+		Connection con = null;
+		AccesoBD accesoBD = new AccesoBD();
+		String msg = null;
+		boolean existsCed = false;
+		boolean errorPersistencia = false;
+		
+		try {
+			con = DriverManager.getConnection(url, user, password);
+			existsCed = accesoBD.existsDuenio(con, cedula);
+			if (existsCed) {
+				accesoBD.nuevaMascota(con, cedula, voM);
+			} else {
+				msg = "No existe dueño";
+			}
+			con.close();
+			con = null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			errorPersistencia = true;
+			msg = "error de acceso a los datos 1";
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					errorPersistencia = true;
+					msg = "error de acceso a los datos 2";
+				}
+			}
+			if (!existsCed)
+				throw new DuenioException(msg);
+			if (errorPersistencia)
+				throw new PersistenciaException(msg);
+		}
 	}
 
 	void borrarDuenioMascota(int cedula) {
@@ -111,6 +145,18 @@ public class Fachada {
 	}
 
 	public int contarMascotas(int cedula, String raza) {
-		return 0;
+//		Connection con = null;
+//		AccesoBD accesoBD = new AccesoBD();
+		int cantidad = 0;
+//		try {
+//			con = DriverManager.getConnection(url, user, password);
+//			cantidad = accesoBD.contarMascotas(con,);
+//			con.close();
+//		} catch (SQLException e) {
+//			// e.printStackTrace();
+//			throw new PersistenciaException("error de acceso a los datos");
+//		}
+		
+		return cantidad;
 	}
 }

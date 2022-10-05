@@ -10,6 +10,7 @@ import java.util.List;
 
 import practico4.logicaPersistencia.excepciones.PersistenciaException;
 import practico4.logicaPersistencia.valueObjects.VODuenio;
+import practico4.logicaPersistencia.valueObjects.VOMascota;
 
 public class AccesoBD {
 	public boolean existsDuenio(Connection con, int cedula) throws PersistenciaException {
@@ -80,5 +81,30 @@ public class AccesoBD {
 		stmt.close();
 
 		return duenios;
+	}
+
+	public void nuevaMascota(Connection con, int cedula, VOMascota voM) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Consultas consultas = new Consultas();
+		int cantidad = 0;
+		
+		pstmt = con.prepareStatement(consultas.cantMascotasXDuenio());
+		pstmt.setInt(1,cedula);
+		rs = pstmt.executeQuery();
+		if (rs.next()) {
+			cantidad = rs.getInt("cant");
+		}
+		rs.close();
+		pstmt.close();
+		cantidad += 1;
+		
+		pstmt = con.prepareStatement(consultas.insertMascota());
+		pstmt.setInt(1, cantidad);
+		pstmt.setString(2, voM.getApodo());
+		pstmt.setString(3, voM.getRaza());
+		pstmt.setInt(4, cedula);
+		pstmt.executeUpdate();
+		pstmt.close();
 	}
 }

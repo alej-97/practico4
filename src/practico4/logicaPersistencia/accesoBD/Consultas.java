@@ -12,4 +12,12 @@ public class Consultas {
 	public String listDuenios() {
 		return "SELECT cedula, nombre, apellido from duenios";
 	}
+	
+	public String cantMascotasXDuenio() {
+		return "SELECT count(cedDuenio) as cant FROM mascotas WHERE cedDuenio = ?";
+	}
+	
+	public String insertMascota() {
+		return "INSERT INTO mascotas (numInscripcion, apodo, raza, cedDuenio) VALUES (?,?,?,?)";
+	}
 }
