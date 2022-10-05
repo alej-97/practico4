@@ -1,6 +1,10 @@
 package practico4.logicaPersistencia.valueObjects;
 
-public class VOMascota {
+import java.io.Serializable;
+
+public class VOMascota implements Serializable {
+
+	private static final long serialVersionUID = 3649848661228845641L;
 	private String apodo;
 	private String raza;
 	
@@ -9,14 +13,12 @@ public class VOMascota {
 		this.apodo = apodo;
 		this.raza = raza;
 	}
-	
+
 	public String getApodo() {
 		return apodo;
 	}
-	
+
 	public String getRaza() {
 		return raza;
 	}
-	
-	
 }

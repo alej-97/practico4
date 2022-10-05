@@ -1,6 +1,9 @@
 package practico4.logicaPersistencia.valueObjects;
 
-public class VODuenio {
+import java.io.Serializable;
+
+public class VODuenio implements Serializable {
+	private static final long serialVersionUID = -6884301730445586067L;
 	private int cedula;
 	private String nombre;
 	private String apellido;
