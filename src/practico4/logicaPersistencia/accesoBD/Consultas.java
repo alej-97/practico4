@@ -1,21 +1,15 @@
 package practico4.logicaPersistencia.accesoBD;
 
 public class Consultas {
-	
-	public String insertarDuenio() {
-		return "INSERT INTO duenio (cedula, nombre, apellido) values(?,?,?)";
-	}
-	
 	public String existeDuenio() {
-		return "SELECT cedula FROM duenio where cedula=?";
+		return "SELECT cedula FROM duenios WHERE cedula = ?";
 	}
 	
-	public String insertarMascota() {
-		return "INSERT INTO mascota (numInscripcion, apodo, raza, cedDuenio) values(?,?,?,?)";
+	public String insertDuenio() {
+		return "INSERT INTO duenios (cedula, nombre, apellido) VALUES (?,?,?)";
 	}
 	
-	public String existeMascota() {
-		return "SELECT cedula FROM mascota where cedula=?";
+	public String listDuenios() {
+		return "SELECT cedula, nombre, apellido from duenios";
 	}
-	
 }
