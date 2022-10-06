@@ -132,8 +132,8 @@ public class AccesoBD {
 		VOMascota mascota = null;
 		
 		pstmt = con.prepareStatement(consultas.obtenerMascota());
-		pstmt.setInt(1, cedula);
-		pstmt.setInt(2, numInscripcion);
+		pstmt.setInt(1, numInscripcion);
+		pstmt.setInt(2, cedula);
 		rs = pstmt.executeQuery();
 		
 		if(rs.next()) {
@@ -155,8 +155,8 @@ public class AccesoBD {
 		boolean mascotaRegistrada = false;
 		
 		pstmt = con.prepareStatement(consultas.mascotaRegistrada());
-		pstmt.setInt(1, cedula);
-		pstmt.setInt(2, numInscripcion);
+		pstmt.setInt(1, numInscripcion);
+		pstmt.setInt(2, cedula);
 		rs = pstmt.executeQuery();
 		if (rs.next())
 			mascotaRegistrada = true;
