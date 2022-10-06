@@ -8,6 +8,7 @@ import practico4.logicaPersistencia.excepciones.DuenioException;
 import practico4.logicaPersistencia.excepciones.PersistenciaException;
 import practico4.logicaPersistencia.valueObjects.VODuenio;
 import practico4.logicaPersistencia.valueObjects.VOMascota;
+import practico4.logicaPersistencia.valueObjects.VOMascotaList;
 
 public class Certamenes extends UnicastRemoteObject implements ICertamenes {
 
@@ -33,5 +34,11 @@ public class Certamenes extends UnicastRemoteObject implements ICertamenes {
 	@Override
 	public void nuevaMascota(int cedula, VOMascota voM) throws RemoteException, DuenioException, PersistenciaException {
 		fachada.nuevaMascota(cedula, voM);
+	}
+
+	@Override
+	public List<VOMascotaList> listarMascotasDuenio(int cedula)
+			throws RemoteException, DuenioException, PersistenciaException {
+		return fachada.listarMascotasDuenio(cedula);
 	}
 }

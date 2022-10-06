@@ -20,4 +20,8 @@ public class Consultas {
 	public String insertMascota() {
 		return "INSERT INTO mascotas (numInscripcion, apodo, raza, cedDuenio) VALUES (?,?,?,?)";
 	}
+	
+	public String listarMascotasDuenio() {
+		return "SELECT numInscripcion, apodo, raza FROM mascotas WHERE cedDuenio = ? ORDER BY numInscripcion";
+	}
 }

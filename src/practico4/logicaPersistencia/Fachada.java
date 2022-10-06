@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -83,7 +82,7 @@ public class Fachada {
 		String msg = null;
 		boolean existsCed = false;
 		boolean errorPersistencia = false;
-		
+
 		try {
 			con = DriverManager.getConnection(url, user, password);
 			existsCed = accesoBD.existsDuenio(con, cedula);
@@ -97,7 +96,7 @@ public class Fachada {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			errorPersistencia = true;
-			msg = "error de acceso a los datos 1";
+			msg = "error de acceso a los datos";
 		} finally {
 			if (con != null) {
 				try {
@@ -105,7 +104,7 @@ public class Fachada {
 				} catch (SQLException e) {
 					e.printStackTrace();
 					errorPersistencia = true;
-					msg = "error de acceso a los datos 2";
+					msg = "error de acceso a los datos";
 				}
 			}
 			if (!existsCed)
@@ -136,8 +135,46 @@ public class Fachada {
 		return duenios;
 	}
 
-	public List<VOMascotaList> listarMascotasDuenio(int cedula) {
-		return new ArrayList<VOMascotaList>();
+	public List<VOMascotaList> listarMascotasDuenio(int cedula) throws DuenioException, PersistenciaException {
+		List<VOMascotaList> mascotas = null;
+		Connection con = null;
+		AccesoBD accesoBD = new AccesoBD();
+		String msg = null;
+		boolean existsCed = false;
+		boolean errorPersistencia = false;
+
+		try {
+			con = DriverManager.getConnection(url, user, password);
+			existsCed = accesoBD.existsDuenio(con, cedula);
+			if (existsCed) {
+				mascotas = accesoBD.listarMascotasDuenio(cedula, con);
+			} else {
+				msg = "No existe dueǹo";
+			}
+			con.close();
+			con = null;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			errorPersistencia = true;
+			msg = "error de acceso a datos";
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					errorPersistencia = true;
+					msg = "error de acceso a los datos";
+				}
+			}
+			if (!existsCed)
+				throw new DuenioException(msg);
+			if (errorPersistencia)
+				throw new PersistenciaException(msg);
+		}
+
+		return mascotas;
 	}
 
 	public VOMascota obtenerMascota(int cedula, int numInscripcion) {
@@ -156,7 +193,7 @@ public class Fachada {
 //			// e.printStackTrace();
 //			throw new PersistenciaException("error de acceso a los datos");
 //		}
-		
+
 		return cantidad;
 	}
 }
