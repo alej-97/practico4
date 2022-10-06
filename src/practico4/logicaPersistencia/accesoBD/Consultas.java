@@ -24,4 +24,12 @@ public class Consultas {
 	public String listarMascotasDuenio() {
 		return "SELECT numInscripcion, apodo, raza FROM mascotas WHERE cedDuenio = ? ORDER BY numInscripcion";
 	}
+	
+	public String obtenerMascota() {
+		return "SELECT apodo, raza FROM mascotas WHERE numInscripcion = ? AND cedDuenio = ?";
+	}
+	
+	public String mascotaRegistrada() {
+		return "SELECT numInscripcion FROM mascotas WHERE numInscripcion = ? AND cedDuenio = ?";
+	}
 }

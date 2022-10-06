@@ -5,6 +5,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 import practico4.logicaPersistencia.excepciones.DuenioException;
+import practico4.logicaPersistencia.excepciones.MascotaRegistradaException;
 import practico4.logicaPersistencia.excepciones.PersistenciaException;
 import practico4.logicaPersistencia.valueObjects.VODuenio;
 import practico4.logicaPersistencia.valueObjects.VOMascota;
@@ -40,5 +41,11 @@ public class Certamenes extends UnicastRemoteObject implements ICertamenes {
 	public List<VOMascotaList> listarMascotasDuenio(int cedula)
 			throws RemoteException, DuenioException, PersistenciaException {
 		return fachada.listarMascotasDuenio(cedula);
+	}
+
+	@Override
+	public VOMascota obtenerMascota(int cedula, int numInscripcion)
+			throws RemoteException, DuenioException, PersistenciaException, MascotaRegistradaException {
+		return fachada.obtenerMascota(cedula, numInscripcion);
 	}
 }

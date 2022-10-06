@@ -125,4 +125,44 @@ public class AccesoBD {
 		return mascotas;
 	}
 	
+	public VOMascota obtenerMascota(Connection con, int cedula, int numInscripcion) throws SQLException  {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Consultas consultas = new Consultas();
+		VOMascota mascota = null;
+		
+		pstmt = con.prepareStatement(consultas.obtenerMascota());
+		pstmt.setInt(1, cedula);
+		pstmt.setInt(2, numInscripcion);
+		rs = pstmt.executeQuery();
+		
+		if(rs.next()) {
+			String apodo = rs.getString("apodo");
+			String raza  = rs.getString("raza");
+			mascota = new VOMascota(apodo, raza);
+		}
+		
+		rs.close();
+		pstmt.close();
+		return mascota;
+		
+	}
+	
+	public boolean mascotaRegistrada(Connection con, int cedula, int numInscripcion) throws SQLException {
+		PreparedStatement pstmt = null;
+		Consultas consultas = new Consultas();
+		ResultSet rs = null;
+		boolean mascotaRegistrada = false;
+		
+		pstmt = con.prepareStatement(consultas.mascotaRegistrada());
+		pstmt.setInt(1, cedula);
+		pstmt.setInt(2, numInscripcion);
+		rs = pstmt.executeQuery();
+		if (rs.next())
+			mascotaRegistrada = true;
+		rs.close();
+		pstmt.close();
+		return mascotaRegistrada;
+	}
+	
 }

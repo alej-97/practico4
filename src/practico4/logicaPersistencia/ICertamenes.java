@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 import practico4.logicaPersistencia.excepciones.DuenioException;
+import practico4.logicaPersistencia.excepciones.MascotaRegistradaException;
 import practico4.logicaPersistencia.excepciones.PersistenciaException;
 import practico4.logicaPersistencia.valueObjects.VODuenio;
 import practico4.logicaPersistencia.valueObjects.VOMascota;
@@ -15,4 +16,5 @@ public interface ICertamenes extends Remote {
 	public List<VODuenio> listarDuenios() throws RemoteException, PersistenciaException;
 	public void nuevaMascota(int cedula, VOMascota voM) throws RemoteException, DuenioException, PersistenciaException;
 	public List<VOMascotaList> listarMascotasDuenio(int cedula) throws RemoteException, DuenioException, PersistenciaException;
+	public VOMascota obtenerMascota(int cedula, int numInscripcion) throws RemoteException, DuenioException, PersistenciaException, MascotaRegistradaException;
 }

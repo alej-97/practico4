@@ -11,6 +11,7 @@ import java.util.List;
 
 import practico4.logicaPersistencia.ICertamenes;
 import practico4.logicaPersistencia.excepciones.DuenioException;
+import practico4.logicaPersistencia.excepciones.MascotaRegistradaException;
 import practico4.logicaPersistencia.excepciones.PersistenciaException;
 import practico4.logicaPersistencia.valueObjects.VODuenio;
 import practico4.logicaPersistencia.valueObjects.VOMascota;
@@ -29,7 +30,7 @@ public class TestCliente {
 			mostrarMenu();
 			strOpcion = br.readLine();
 			opcion = Integer.parseInt(strOpcion);
-			while (opcion != 5) {
+			while (opcion != 6) {
 				switch (opcion) {
 				case 1:
 					altaDeDuenio(certamenes);
@@ -42,6 +43,9 @@ public class TestCliente {
 					break;
 				case 4:
 					listarMascotasDuenio(certamenes);
+					break;
+				case 5:
+					obtenerMascota(certamenes);
 					break;
 				}
 				mostrarMenu();
@@ -62,6 +66,58 @@ public class TestCliente {
 			e.printStackTrace();
 		}
 
+	}
+
+	private static void obtenerMascota(ICertamenes certamenes) {
+		InputStreamReader is = new InputStreamReader(System.in);
+		BufferedReader br = new BufferedReader(is);
+		int cedula = 0;
+		int numInscripcion = 0;
+		boolean fin = false;
+		boolean errorEntradaSalida = false;
+		VOMascota mascota = null;
+		System.out.println("");
+		System.out.println("Obtener Mascota:");
+		System.out.println("---------------------------");
+		while(!fin) {
+			try {
+				System.out.print("Ingrese nro de cedula: ");
+				cedula = Integer.parseInt(br.readLine());
+				System.out.print("Ingrese nro de inscripcion: ");
+				numInscripcion = Integer.parseInt(br.readLine());
+				System.out.println("");
+				System.out.print("Los datos son correctos? (S/N) ");
+				fin = aceptarOpcion();
+			} catch (IOException e) {
+				System.out.println("");
+				System.out.println("ERROR: error de E/S");
+				fin = false;
+				errorEntradaSalida = true;
+			}
+			if (!errorEntradaSalida) {
+				try {
+					mascota = certamenes.obtenerMascota(cedula, numInscripcion);
+					System.out.println("");
+					System.out.println("Apodo:" + mascota.getApodo());
+					System.out.println("Raza:" + mascota.getRaza());
+					
+				} catch (RemoteException e) {
+					System.out.println("");
+					System.out.println("ERROR: error de comunicación con el servidor");
+				} catch (DuenioException e) {
+					System.out.println("");
+					System.out.println("ERROR: " + e.getMessage());
+				} catch (PersistenciaException e) {
+					System.out.println("");
+					System.out.println("ERROR: " + e.getMessage());
+				} catch (MascotaRegistradaException e) {
+					System.out.println("");
+					System.out.println("ERROR: " + e.getMessage());
+				}
+				System.out.println("");
+			}
+		}
+		
 	}
 
 	private static void listarMascotasDuenio(ICertamenes certamenes) {
@@ -235,8 +291,9 @@ public class TestCliente {
 		System.out.println(" 2. Listar Dueǹos");
 		System.out.println(" 3. Nueva Mascota");
 		System.out.println(" 4. Listar Mascotas de un Dueño");
+		System.out.println(" 5. Obtener Mascota");
 		System.out.println("");
-		System.out.println(" 5. Salir");
+		System.out.println(" 6. Salir");
 		System.out.println("Ingrese opción:");
 	}
 }
