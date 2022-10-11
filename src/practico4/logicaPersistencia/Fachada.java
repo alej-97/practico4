@@ -115,8 +115,44 @@ public class Fachada {
 		}
 	}
 
-	void borrarDuenioMascota(int cedula) {
-
+	public void borrarDuenioMascota(int cedula) throws DuenioException, PersistenciaException {
+		Connection con = null;
+		AccesoBD accesoBD = new AccesoBD();
+		
+		String msg = null;
+		boolean existsCed = false;
+		boolean errorPersistencia = false;
+		
+		try {
+			con = DriverManager.getConnection(url, user, password);
+			existsCed = accesoBD.existsDuenio(con, cedula);
+			if (existsCed) {
+				accesoBD.borrarDuenioMascotas(con, cedula);
+			} else {
+				msg = "No existe dueǹo";
+			}
+			con.close();
+			con = null;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			errorPersistencia = true;
+			msg = "error de acceso a datos";
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					errorPersistencia = true;
+					msg = "error de acceso a los datos";
+				}
+			}
+			if (!existsCed)
+				throw new DuenioException(msg);
+			if (errorPersistencia)
+				throw new PersistenciaException(msg);
+		}
 	}
 
 	public List<VODuenio> listarDuenios() throws PersistenciaException {

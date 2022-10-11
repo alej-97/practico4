@@ -183,4 +183,19 @@ public class AccesoBD {
 
 		return cantidad;
 	}
+	
+	public void borrarDuenioMascotas(Connection con, int cedula) throws SQLException {
+		PreparedStatement pstmt = null;
+		Consultas consultas = new Consultas();
+		
+		pstmt = con.prepareStatement(consultas.borrarMascotas());
+		pstmt.setInt(1, cedula);
+		pstmt.executeUpdate();
+		pstmt.close();
+		
+		pstmt = con.prepareStatement(consultas.borrarDuenio());
+		pstmt.setInt(1, cedula);
+		pstmt.executeUpdate();
+		pstmt.close();
+	}
 }

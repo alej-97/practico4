@@ -36,4 +36,12 @@ public class Consultas {
 	public String contarMascotas() {
 		return "SELECT COUNT(*) AS cantidad FROM mascotas WHERE cedDuenio=? AND raza=?";
 	}
+	
+	public String borrarDuenio() {
+		return "DELETE FROM duenios WHERE cedula = ?";
+	}
+	
+	public String borrarMascotas() {
+		return "DELETE FROM mascotas WHERE cedDuenio = ?";
+	}
 }
