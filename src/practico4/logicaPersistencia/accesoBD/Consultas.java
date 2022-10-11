@@ -32,4 +32,8 @@ public class Consultas {
 	public String mascotaRegistrada() {
 		return "SELECT numInscripcion FROM mascotas WHERE numInscripcion = ? AND cedDuenio = ?";
 	}
+	
+	public String contarMascotas() {
+		return "SELECT COUNT(*) AS cantidad FROM mascotas WHERE cedDuenio=? AND raza=?";
+	}
 }

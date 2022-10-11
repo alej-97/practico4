@@ -165,4 +165,22 @@ public class AccesoBD {
 		return mascotaRegistrada;
 	}
 	
+	public int contarMascotas(Connection con, int cedula, String raza) throws SQLException {
+		int cantidad = 0;
+		PreparedStatement pstmt = null;
+		Consultas consultas = new Consultas();
+		ResultSet rs = null;
+		
+		pstmt = con.prepareStatement(consultas.contarMascotas());
+		pstmt.setInt(1, cedula);
+		pstmt.setString(2, raza);
+		rs = pstmt.executeQuery();
+		if (rs.next()) {
+			cantidad = rs.getInt("cantidad");
+		}
+		rs.close();
+		pstmt.close();
+
+		return cantidad;
+	}
 }

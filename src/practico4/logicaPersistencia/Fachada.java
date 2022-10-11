@@ -178,23 +178,25 @@ public class Fachada {
 		return mascotas;
 	}
 
-	public VOMascota obtenerMascota(int cedula, int numInscripcion) throws DuenioException, PersistenciaException, MascotaRegistradaException {
+	public VOMascota obtenerMascota(int cedula, int numInscripcion)
+			throws DuenioException, PersistenciaException, MascotaRegistradaException {
 		Connection con = null;
 		AccesoBD accesoBD = new AccesoBD();
 		boolean errorPersistencia = false;
 		boolean existeDuenio = false;
 		boolean mascotaRegistrada = false;
 		String msg = null;
-		VOMascota mascota = null; 
+		VOMascota mascota = null;
 		try {
 			con = DriverManager.getConnection(url, user, password);
 			existeDuenio = accesoBD.existsDuenio(con, cedula);
-			if(existeDuenio) {
-				mascotaRegistrada  = accesoBD.mascotaRegistrada(con, cedula, numInscripcion);
-				if(mascotaRegistrada) {
+			if (existeDuenio) {
+				mascotaRegistrada = accesoBD.mascotaRegistrada(con, cedula, numInscripcion);
+				if (mascotaRegistrada) {
 					mascota = accesoBD.obtenerMascota(con, cedula, numInscripcion);
 				} else {
-					msg = "Dueño con cedula " + cedula + " no tiene mascota registrada con numero de inscripcion " + numInscripcion;					
+					msg = "Dueño con cedula " + cedula + " no tiene mascota registrada con numero de inscripcion "
+							+ numInscripcion;
 				}
 			} else {
 				msg = "No existe dueño";
@@ -219,25 +221,47 @@ public class Fachada {
 				throw new DuenioException(msg);
 			if (errorPersistencia)
 				throw new PersistenciaException(msg);
-			if(!mascotaRegistrada)
+			if (!mascotaRegistrada)
 				throw new MascotaRegistradaException(msg);
 		}
 		return mascota;
 	}
 
-	public int contarMascotas(int cedula, String raza) {
-//		Connection con = null;
-//		AccesoBD accesoBD = new AccesoBD();
-		int cantidad = 0;
-//		try {
-//			con = DriverManager.getConnection(url, user, password);
-//			cantidad = accesoBD.contarMascotas(con,);
-//			con.close();
-//		} catch (SQLException e) {
-//			// e.printStackTrace();
-//			throw new PersistenciaException("error de acceso a los datos");
-//		}
+	public int contarMascotas(int cedula, String raza) throws PersistenciaException, DuenioException {
+		Connection con = null;
+		AccesoBD accesoBD = new AccesoBD();
+		boolean errorPersistencia = false;
+		boolean existeDuenio = false;
+		String msg = null;
 
+		int cantidad = 0;
+		try {
+			con = DriverManager.getConnection(url, user, password);
+			existeDuenio = accesoBD.existsDuenio(con, cedula);
+			if (existeDuenio) {
+				cantidad = accesoBD.contarMascotas(con, cedula, raza);
+			} else {
+				msg = "Cedula no registrada";
+			}
+			con.close();
+			con = null;
+		} catch (SQLException e) {
+			errorPersistencia = true;
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					errorPersistencia = true;
+					msg = "error de acceso a los datos";
+				}
+			}
+			if (!existeDuenio)
+				throw new DuenioException(msg);
+			if (errorPersistencia)
+				throw new PersistenciaException(msg);
+		}
 		return cantidad;
 	}
 }

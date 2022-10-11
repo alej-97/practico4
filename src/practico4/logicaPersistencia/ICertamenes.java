@@ -17,4 +17,5 @@ public interface ICertamenes extends Remote {
 	public void nuevaMascota(int cedula, VOMascota voM) throws RemoteException, DuenioException, PersistenciaException;
 	public List<VOMascotaList> listarMascotasDuenio(int cedula) throws RemoteException, DuenioException, PersistenciaException;
 	public VOMascota obtenerMascota(int cedula, int numInscripcion) throws RemoteException, DuenioException, PersistenciaException, MascotaRegistradaException;
+	public int contarMascotas(int cedula, String raza) throws RemoteException, PersistenciaException, DuenioException;
 }

@@ -48,4 +48,10 @@ public class Certamenes extends UnicastRemoteObject implements ICertamenes {
 			throws RemoteException, DuenioException, PersistenciaException, MascotaRegistradaException {
 		return fachada.obtenerMascota(cedula, numInscripcion);
 	}
+
+	@Override
+	public int contarMascotas(int cedula, String raza) throws RemoteException, PersistenciaException, DuenioException {
+		int cantidad = fachada.contarMascotas(cedula, raza);
+		return cantidad;
+	}
 }

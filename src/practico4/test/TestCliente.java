@@ -30,7 +30,7 @@ public class TestCliente {
 			mostrarMenu();
 			strOpcion = br.readLine();
 			opcion = Integer.parseInt(strOpcion);
-			while (opcion != 6) {
+			while (opcion != 7) {
 				switch (opcion) {
 				case 1:
 					altaDeDuenio(certamenes);
@@ -46,6 +46,9 @@ public class TestCliente {
 					break;
 				case 5:
 					obtenerMascota(certamenes);
+					break;
+				case 6:
+					contarMascotas(certamenes);
 					break;
 				}
 				mostrarMenu();
@@ -66,6 +69,53 @@ public class TestCliente {
 			e.printStackTrace();
 		}
 
+	}
+
+	private static void contarMascotas(ICertamenes certamenes) {
+		InputStreamReader is = new InputStreamReader(System.in);
+		BufferedReader br = new BufferedReader(is);
+		int cedula = 0;
+		String raza = null;
+		boolean fin = false;
+		boolean errorEntradaSalida = false;
+		int cantidad = 0;
+		
+		System.out.println("");
+		System.out.println("Contar Mascotas");
+		System.out.println("---------------");
+		while (!fin) {
+			try {
+				System.out.println("Ingrese número de cédula: ");
+				cedula = Integer.parseInt(br.readLine());
+				System.out.println("Ingrese raza            : ");
+				raza = br.readLine();
+				System.out.print("Los datos son correctos? (S/N) ");
+				fin = aceptarOpcion();
+			} catch (IOException e) {
+				System.out.println("");
+				System.out.println("ERROR: error de E/S");
+				fin = false;
+				errorEntradaSalida = true;
+			}
+			if (!errorEntradaSalida) {
+				try {
+					cantidad = certamenes.contarMascotas(cedula, raza);
+					System.out.println("");
+					System.out.println("Cantidad:" + cantidad);				
+				} catch (RemoteException e) {
+					System.out.println("");
+					System.out.println("ERROR: error de comunicación con el servidor");
+				} catch (DuenioException e) {
+					System.out.println("");
+					System.out.println("ERROR: " + e.getMessage());
+				} catch (PersistenciaException e) {
+					System.out.println("");
+					System.out.println("ERROR: " + e.getMessage());
+				} 
+				System.out.println("");
+			}
+			
+		}
 	}
 
 	private static void obtenerMascota(ICertamenes certamenes) {
@@ -292,8 +342,9 @@ public class TestCliente {
 		System.out.println(" 3. Nueva Mascota");
 		System.out.println(" 4. Listar Mascotas de un Dueño");
 		System.out.println(" 5. Obtener Mascota");
+		System.out.println(" 6. Contar Mascotas");
 		System.out.println("");
-		System.out.println(" 6. Salir");
+		System.out.println(" 7. Salir");
 		System.out.println("Ingrese opción:");
 	}
 }
