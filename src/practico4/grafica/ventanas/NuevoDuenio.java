@@ -15,8 +15,7 @@ public class NuevoDuenio extends JInternalFrame {
 	
 	private JPanel panelDatos;
 	private JPanel panelBotones;
-	private JButton btnCancelar;
-	private JButton btnOk;
+	private JButton btnRegistrar;
 	private JLabel lblNombre;
 	private JLabel lblApellido;
 	private JLabel lblCedula;
@@ -32,20 +31,17 @@ public class NuevoDuenio extends JInternalFrame {
 	private void initialize() {
 		panelDatos = new JPanel();
 		panelBotones = new JPanel();
-		btnCancelar = new JButton("Cancelar");
-		btnOk = new JButton("OK");
-		lblNombre = new JLabel();
-		lblApellido = new JLabel();
-		lblCedula = new JLabel();
+		btnRegistrar = new JButton("Registrar");
+		lblNombre = new JLabel("Nombre");
+		lblApellido = new JLabel("Apellido");
+		lblCedula = new JLabel("Cedula:");
 		txtCedula = new JTextField();
 		txtNombre = new JTextField();
 		txtApellido = new JTextField();
 		
 		panelDatos.setLayout(new GridLayout(4, 2));
 		panelBotones.setLayout(new FlowLayout());
-		panelBotones.add(btnCancelar);
-		panelBotones.add(btnOk);
-		
+		panelBotones.add(btnRegistrar);
 		panelDatos.add(lblCedula);
 		panelDatos.add(txtCedula);
 		panelDatos.add(lblNombre);

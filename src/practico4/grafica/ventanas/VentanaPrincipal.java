@@ -3,24 +3,34 @@ package practico4.grafica.ventanas;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.Properties;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import practico4.logicaPersistencia.ICertamenes;
 
 public class VentanaPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 7988368683410415113L;
+	public static final String nomArch = "config/cliente-gui.properties";
+	public ICertamenes certamenes = null;
 	private JDesktopPane desk;
-	
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					VentanaPrincipal window = new VentanaPrincipal("Certamenes");
-					//window.pack();
+					// window.pack();
 					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -28,10 +38,35 @@ public class VentanaPrincipal extends JFrame {
 			}
 		});
 	}
-	
+
 	public VentanaPrincipal(String title) {
 		super(title);
+		connetToServer();
+
 		intialize();
+	}
+
+	private void connetToServer() {
+		Properties props = new Properties();
+		String ruta = null;
+		String msg = null;
+		boolean hayError = false;
+		try {
+			props.load(new FileInputStream(nomArch));
+			ruta = props.getProperty("ruta");
+			this.certamenes = (ICertamenes) Naming.lookup(ruta);
+		} catch (MalformedURLException | RemoteException | NotBoundException e) {
+			msg = "Error en la comunicación con el servidor";
+			hayError = true;
+		} catch (IOException e) {
+			msg = "No se pudo leer archivo de propiedades";
+			hayError = true;
+		}
+		if (hayError) {
+			JOptionPane.showMessageDialog(null, msg, "Certamenes", JOptionPane.ERROR_MESSAGE);
+			System.exit(ERROR);
+		}
+
 	}
 
 	private void intialize() {
@@ -39,7 +74,7 @@ public class VentanaPrincipal extends JFrame {
 		desk = new JDesktopPane();
 		this.setContentPane(desk);
 		this.setSize(500, 500);
-		
+
 		createMenuBar();
 	}
 
@@ -62,20 +97,19 @@ public class VentanaPrincipal extends JFrame {
 		menu.add(listarMascotasDuenio);
 		menu.add(contarMascotas);
 		menu.add(obtenerMascota);
-		
+
 		nuevoDuenio.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				NuevoDuenio nd = new NuevoDuenio();
-				
+
 				nd.setClosable(true);
 				nd.pack();
 				nd.setVisible(true);
 				desk.add(nd);
 			}
-			
 		});
 	}
-	
+
 }
