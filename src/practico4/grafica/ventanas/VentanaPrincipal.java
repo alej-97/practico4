@@ -16,6 +16,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+
+import practico4.grafica.controladores.ControladorNuevoDuenio;
 import practico4.logicaPersistencia.ICertamenes;
 
 public class VentanaPrincipal extends JFrame {
@@ -73,7 +75,7 @@ public class VentanaPrincipal extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		desk = new JDesktopPane();
 		this.setContentPane(desk);
-		this.setSize(500, 500);
+		this.setSize(600, 500);
 
 		createMenuBar();
 	}
@@ -103,9 +105,10 @@ public class VentanaPrincipal extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				NuevoDuenio nd = new NuevoDuenio();
-
+				ControladorNuevoDuenio controlador = new ControladorNuevoDuenio(nd,certamenes);
+				nd.setControlador(controlador);
 				nd.setClosable(true);
-				nd.pack();
+				//nd.pack();
 				nd.setVisible(true);
 				desk.add(nd);
 			}
