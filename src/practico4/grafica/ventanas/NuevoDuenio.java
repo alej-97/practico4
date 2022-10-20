@@ -29,6 +29,7 @@ public class NuevoDuenio extends JInternalFrame implements ActionListener {
 	public NuevoDuenio() {
 		setBounds(50, 50, 400, 170);
 		
+		this.setTitle("Nuevo Dueño");
 		JLabel lblCedula = new JLabel("Cedula:");
 		lblCedula.setHorizontalAlignment(SwingConstants.RIGHT);
 		
@@ -111,5 +112,8 @@ public class NuevoDuenio extends JInternalFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		controlador.nuevoDuenio(Integer.parseInt(txtCedula.getText()), txtNombre.getText(), txtApellido.getText()); 
+		txtCedula.setText("");
+		txtNombre.setText("");
+		txtApellido.setText("");
 	}
 }

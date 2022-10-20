@@ -17,6 +17,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import practico4.grafica.controladores.ControladorNuevaMascota;
 import practico4.grafica.controladores.ControladorNuevoDuenio;
 import practico4.logicaPersistencia.ICertamenes;
 
@@ -111,6 +112,19 @@ public class VentanaPrincipal extends JFrame {
 				//nd.pack();
 				nd.setVisible(true);
 				desk.add(nd);
+			}
+		});
+		
+		nuevaMascota.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				NuevaMascota nm = new NuevaMascota();
+				ControladorNuevaMascota controlador = new ControladorNuevaMascota(nm,certamenes);
+				nm.setControlador(controlador);
+				nm.setClosable(true);
+				nm.setVisible(true);
+				desk.add(nm);
 			}
 		});
 	}
