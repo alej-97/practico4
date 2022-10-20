@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
 import practico4.grafica.controladores.ControladorNuevoDuenio;
+import practico4.grafica.ventanas.util.KeyAdapterNumberOnly;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
@@ -38,6 +39,7 @@ public class NuevoDuenio extends JInternalFrame implements ActionListener {
 		
 		txtCedula = new JTextField();
 		txtCedula.setColumns(10);
+		txtCedula.addKeyListener(new KeyAdapterNumberOnly());
 		
 		txtNombre = new JTextField();
 		txtNombre.setColumns(25);
