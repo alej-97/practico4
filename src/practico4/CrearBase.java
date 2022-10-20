@@ -44,7 +44,7 @@ public class CrearBase {
 
 			String sql2 = "CREATE TABLE IF NOT EXISTS certamenes.mascotas ("
 					+ "numInscripcion int not null, apodo varchar(45) not null, raza varchar(45), cedDuenio int, "
-					+ "Primary key (numInscripcion, apodo), "
+					+ "Primary key (numInscripcion, apodo, cedDuenio), "
 					+ "Foreign key (cedDuenio) References certamenes.duenios(cedula))";
 			System.out.println(sql2);
 			stmt.executeUpdate(sql2);
