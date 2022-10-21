@@ -17,6 +17,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import practico4.grafica.controladores.ControladorBorrarDuenio;
 import practico4.grafica.controladores.ControladorContarMascotas;
 import practico4.grafica.controladores.ControladorListadoDeMascotas;
 import practico4.grafica.controladores.ControladorListadoDuenios;
@@ -187,6 +188,20 @@ public class VentanaPrincipal extends JFrame {
 				contar.setVisible(true);
 				desk.add(contar);
 			}
+		});
+		
+		borrarDuenio.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				BorrarDuenio ventana = new BorrarDuenio();
+				ControladorBorrarDuenio controlador = new ControladorBorrarDuenio(ventana, certamenes);
+				ventana.setControlador(controlador);
+				ventana.setClosable(true);
+				ventana.setVisible(true);
+				desk.add(ventana);
+			}
+			
 		});
 	}
 }
