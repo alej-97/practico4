@@ -21,6 +21,7 @@ import practico4.grafica.controladores.ControladorListadoDeMascotas;
 import practico4.grafica.controladores.ControladorListadoDuenios;
 import practico4.grafica.controladores.ControladorNuevaMascota;
 import practico4.grafica.controladores.ControladorNuevoDuenio;
+import practico4.grafica.controladores.ControladorObtenerMascota;
 import practico4.logicaPersistencia.ICertamenes;
 
 public class VentanaPrincipal extends JFrame {
@@ -158,6 +159,19 @@ public class VentanaPrincipal extends JFrame {
 				mascotas.setResizable(true);
 				mascotas.setMaximizable(true);
 				desk.add(mascotas);
+			}
+		});
+		
+		obtenerMascota.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				ObtenerMascota mascota = new ObtenerMascota();
+				ControladorObtenerMascota controlador = new ControladorObtenerMascota(mascota, certamenes);
+				mascota.setControlador(controlador);
+				mascota.setClosable(true);
+				mascota.setVisible(true);
+				desk.add(mascota);
 			}
 		});
 	}
