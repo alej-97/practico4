@@ -17,6 +17,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import practico4.grafica.controladores.ControladorContarMascotas;
 import practico4.grafica.controladores.ControladorListadoDeMascotas;
 import practico4.grafica.controladores.ControladorListadoDuenios;
 import practico4.grafica.controladores.ControladorNuevaMascota;
@@ -172,6 +173,19 @@ public class VentanaPrincipal extends JFrame {
 				mascota.setClosable(true);
 				mascota.setVisible(true);
 				desk.add(mascota);
+			}
+		});
+		
+		contarMascotas.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				ContarMascotas contar = new ContarMascotas();
+				ControladorContarMascotas controlador = new ControladorContarMascotas(contar, certamenes);
+				contar.setControlador(controlador);
+				contar.setClosable(true);
+				contar.setVisible(true);
+				desk.add(contar);
 			}
 		});
 	}
