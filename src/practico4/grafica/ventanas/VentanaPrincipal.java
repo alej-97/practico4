@@ -17,6 +17,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import practico4.grafica.controladores.ControladorListadoDuenios;
 import practico4.grafica.controladores.ControladorNuevaMascota;
 import practico4.grafica.controladores.ControladorNuevoDuenio;
 import practico4.logicaPersistencia.ICertamenes;
@@ -126,6 +127,22 @@ public class VentanaPrincipal extends JFrame {
 				nm.setVisible(true);
 				desk.add(nm);
 			}
+		});
+		
+		listarDuenios.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				ListarDuenios ld = new ListarDuenios();
+				ControladorListadoDuenios controlador = new ControladorListadoDuenios(ld, certamenes);
+				ld.setControlador(controlador);
+				ld.setClosable(true);
+				ld.setVisible(true);
+				ld.setResizable(true);
+				ld.setMaximizable(true);
+				desk.add(ld);
+			}
+			
 		});
 	}
 
