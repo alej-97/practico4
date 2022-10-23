@@ -1,6 +1,5 @@
 package practico4.logicaPersistencia.accesoBD;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,13 +13,13 @@ import practico4.logicaPersistencia.valueObjects.VOMascota;
 import practico4.logicaPersistencia.valueObjects.VOMascotaList;
 
 public class AccesoBD {
-	public boolean existsDuenio(Connection con, int cedula) throws SQLException {
+	public boolean existsDuenio(IConexion icon, int cedula) throws SQLException {
 		PreparedStatement pstmt = null;
 		Consultas consultas = new Consultas();
 		ResultSet rs = null;
 		boolean existsDuenio = false;
 		
-		pstmt = con.prepareStatement(consultas.existeDuenio());
+		pstmt = ((Conexion) icon).getConnection().prepareStatement(consultas.existeDuenio());
 		pstmt.setInt(1, cedula);
 		rs = pstmt.executeQuery();
 		if (rs.next())
@@ -30,12 +29,12 @@ public class AccesoBD {
 		return existsDuenio;
 	}
 
-	public void insertDuenio(Connection con, VODuenio voD) throws PersistenciaException {
+	public void insertDuenio(IConexion icon, VODuenio voD) throws PersistenciaException {
 		PreparedStatement pstmt = null;
 		Consultas consultas = new Consultas();
 
 		try {
-			pstmt = con.prepareStatement(consultas.insertDuenio());
+			pstmt = ((Conexion)icon).getConnection().prepareStatement(consultas.insertDuenio());
 			pstmt.setInt(1, voD.getCedula());
 			pstmt.setString(2, voD.getNombre());
 			pstmt.setString(3, voD.getApellido());
@@ -59,12 +58,12 @@ public class AccesoBD {
 		}
 	}
 
-	public List<VODuenio> listDuenios(Connection con) throws SQLException {
+	public List<VODuenio> listDuenios(IConexion icon) throws SQLException {
 		ArrayList<VODuenio> duenios = new ArrayList<>();
 		Statement stmt = null;
 		ResultSet rs = null;
 		Consultas consultas = new Consultas();
-		stmt = con.createStatement();
+		stmt = ((Conexion)icon).getConnection().createStatement();
 		rs = stmt.executeQuery(consultas.listDuenios());
 		while (rs.next()) {
 			int cedula = rs.getInt("cedula");
@@ -79,13 +78,13 @@ public class AccesoBD {
 		return duenios;
 	}
 
-	public void nuevaMascota(Connection con, int cedula, VOMascota voM) throws SQLException {
+	public void nuevaMascota(IConexion icon, int cedula, VOMascota voM) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Consultas consultas = new Consultas();
 		int cantidad = 0;
 		
-		pstmt = con.prepareStatement(consultas.cantMascotasXDuenio());
+		pstmt = ((Conexion) icon).getConnection().prepareStatement(consultas.cantMascotasXDuenio());
 		pstmt.setInt(1,cedula);
 		rs = pstmt.executeQuery();
 		if (rs.next()) {
@@ -95,7 +94,7 @@ public class AccesoBD {
 		pstmt.close();
 		cantidad += 1;
 		
-		pstmt = con.prepareStatement(consultas.insertMascota());
+		pstmt = ((Conexion)icon).getConnection().prepareStatement(consultas.insertMascota());
 		pstmt.setInt(1, cantidad);
 		pstmt.setString(2, voM.getApodo());
 		pstmt.setString(3, voM.getRaza());
@@ -104,13 +103,13 @@ public class AccesoBD {
 		pstmt.close();
 	}
 	
-	public List<VOMascotaList> listarMascotasDuenio(int cedula, Connection con) throws SQLException {
+	public List<VOMascotaList> listarMascotasDuenio(int cedula, IConexion icon) throws SQLException {
 		ArrayList<VOMascotaList> mascotas = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Consultas consultas = new Consultas();
 		
-		pstmt = con.prepareStatement(consultas.listarMascotasDuenio());
+		pstmt = ((Conexion)icon).getConnection().prepareStatement(consultas.listarMascotasDuenio());
 		pstmt.setInt(1, cedula);
 		rs = pstmt.executeQuery();
 		while (rs.next()) {
@@ -125,13 +124,13 @@ public class AccesoBD {
 		return mascotas;
 	}
 	
-	public VOMascota obtenerMascota(Connection con, int cedula, int numInscripcion) throws SQLException  {
+	public VOMascota obtenerMascota(IConexion icon, int cedula, int numInscripcion) throws SQLException  {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Consultas consultas = new Consultas();
 		VOMascota mascota = null;
 		
-		pstmt = con.prepareStatement(consultas.obtenerMascota());
+		pstmt = ((Conexion)icon).getConnection().prepareStatement(consultas.obtenerMascota());
 		pstmt.setInt(1, numInscripcion);
 		pstmt.setInt(2, cedula);
 		rs = pstmt.executeQuery();
@@ -148,13 +147,13 @@ public class AccesoBD {
 		
 	}
 	
-	public boolean mascotaRegistrada(Connection con, int cedula, int numInscripcion) throws SQLException {
+	public boolean mascotaRegistrada(IConexion icon, int cedula, int numInscripcion) throws SQLException {
 		PreparedStatement pstmt = null;
 		Consultas consultas = new Consultas();
 		ResultSet rs = null;
 		boolean mascotaRegistrada = false;
 		
-		pstmt = con.prepareStatement(consultas.mascotaRegistrada());
+		pstmt = ((Conexion)icon).getConnection().prepareStatement(consultas.mascotaRegistrada());
 		pstmt.setInt(1, numInscripcion);
 		pstmt.setInt(2, cedula);
 		rs = pstmt.executeQuery();
@@ -165,13 +164,13 @@ public class AccesoBD {
 		return mascotaRegistrada;
 	}
 	
-	public int contarMascotas(Connection con, int cedula, String raza) throws SQLException {
+	public int contarMascotas(IConexion icon, int cedula, String raza) throws SQLException {
 		int cantidad = 0;
 		PreparedStatement pstmt = null;
 		Consultas consultas = new Consultas();
 		ResultSet rs = null;
 		
-		pstmt = con.prepareStatement(consultas.contarMascotas());
+		pstmt = ((Conexion)icon).getConnection().prepareStatement(consultas.contarMascotas());
 		pstmt.setInt(1, cedula);
 		pstmt.setString(2, raza);
 		rs = pstmt.executeQuery();
@@ -184,16 +183,16 @@ public class AccesoBD {
 		return cantidad;
 	}
 	
-	public void borrarDuenioMascotas(Connection con, int cedula) throws SQLException {
+	public void borrarDuenioMascotas(IConexion icon, int cedula) throws SQLException {
 		PreparedStatement pstmt = null;
 		Consultas consultas = new Consultas();
 		
-		pstmt = con.prepareStatement(consultas.borrarMascotas());
+		pstmt = ((Conexion)icon).getConnection().prepareStatement(consultas.borrarMascotas());
 		pstmt.setInt(1, cedula);
 		pstmt.executeUpdate();
 		pstmt.close();
 		
-		pstmt = con.prepareStatement(consultas.borrarDuenio());
+		pstmt = ((Conexion)icon).getConnection().prepareStatement(consultas.borrarDuenio());
 		pstmt.setInt(1, cedula);
 		pstmt.executeUpdate();
 		pstmt.close();

@@ -5,7 +5,6 @@ import java.rmi.RemoteException;
 import practico4.grafica.ventanas.ContarMascotas;
 import practico4.logicaPersistencia.ICertamenes;
 import practico4.logicaPersistencia.excepciones.DuenioException;
-import practico4.logicaPersistencia.excepciones.MascotaRegistradaException;
 import practico4.logicaPersistencia.excepciones.PersistenciaException;
 
 public class ControladorContarMascotas {

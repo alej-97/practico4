@@ -9,11 +9,12 @@ import java.rmi.registry.LocateRegistry;
 import java.util.Properties;
 
 import practico4.logicaPersistencia.Certamenes;
+import practico4.logicaPersistencia.excepciones.PersistenciaException;
 
 public class Servidor {
 	private Certamenes certamenes;
 
-	public Servidor() throws RemoteException {
+	public Servidor() throws RemoteException, PersistenciaException {
 		super();
 		certamenes = new Certamenes();
 	}
@@ -32,6 +33,9 @@ public class Servidor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (PersistenciaException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

@@ -17,7 +17,7 @@ public class Certamenes extends UnicastRemoteObject implements ICertamenes {
 	
 	private static final long serialVersionUID = 5476454874034098350L;
 
-	public Certamenes() throws RemoteException {
+	public Certamenes() throws RemoteException, PersistenciaException {
 		super();
 		fachada = new Fachada();
 	}
